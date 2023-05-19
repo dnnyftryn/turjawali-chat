@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "288226769178",
+    "project_id": "chat-projek-86381",
+    "storage_bucket": "chat-projek-86381.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288226769178:android:4db5cd2e99bae0062514a3",
+        "android_client_info": {
+          "package_name": "com.aplikasi.turjawalichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288226769178-k4q6b4l0oomgjmk1l90ipa73mhes1tnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBASR0nNSw_aGdOhNNwR7mkIpsGu4mhVns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288226769178-k4q6b4l0oomgjmk1l90ipa73mhes1tnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

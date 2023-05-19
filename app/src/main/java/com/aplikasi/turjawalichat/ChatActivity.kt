@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aplikasi.turjawalichat.adapter.MessageAdapter
+import com.aplikasi.turjawalichat.adapter.MessageNewAdapter
 import com.aplikasi.turjawalichat.databinding.ActivityChatBinding
 import com.aplikasi.turjawalichat.model.Message
 import com.aplikasi.turjawalichat.model.User
@@ -19,7 +20,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
 
     private lateinit var mDbRef: DatabaseReference
-    private lateinit var adapter: MessageAdapter
+//    private lateinit var adapter: MessageAdapter
+    private lateinit var newadapter: MessageNewAdapter
 
 
     var receiverRoom: String? = null
@@ -82,27 +84,28 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun getListMessage(senderUid: String?){
+        val messageNewAdapter = MessageNewAdapter(senderUid!!)
         val manager = LinearLayoutManager(this)
         binding.messageRecyclerView.itemAnimator = null
         manager.stackFromEnd = true
         binding.messageRecyclerView.layoutManager = manager
-        val messageRef =   mDbRef.child("chats").child(senderRoom!!).child("messages")
-        Log.d("TAG", "getListMessage: $messageRef")
-        val options = FirebaseRecyclerOptions.Builder<Message>()
-            .setQuery(messageRef, Message::class.java)
-            .build()
-        Log.d("TAG", "options: ${options.snapshots}")
-        adapter = MessageAdapter(options, senderUid!!)
-        binding.messageRecyclerView.adapter = adapter
-        messageRef.addValueEventListener(object : ValueEventListener {
+        mDbRef.child("chats").child(senderRoom!!).child("messages").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val array = adapter.itemCount
-                Log.d("TAG", "array: $array")
-                Log.d("TAG", "snapshot: $snapshot")
+                val list = ArrayList<Message>()
+                for (data in snapshot.children){
+                    val message = data.getValue(Message::class.java)
+                    if (message != null) {
+                        list.add(message)
+                    }
+                    messageNewAdapter.setData(list)
+                }
+                binding.messageRecyclerView.adapter = messageNewAdapter
+                binding.messageRecyclerView.adapter = messageNewAdapter
+                binding.messageRecyclerView.scrollToPosition(messageNewAdapter.itemCount - 1)
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Log.e("TAG_ERROR", error.message)
             }
 
         })
